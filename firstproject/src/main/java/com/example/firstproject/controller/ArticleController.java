@@ -14,9 +14,9 @@ public class ArticleController {
         return "articles/new";
     }
 
-//    @PostMapping("/articles/create")
-//    public String createArticle(@PathVariable Long id) {
-//        log.info("id= ", id);
-//        return "article/create";
-//    }
+    @PostMapping("/articles/create")
+    public String createArticle(ArticleForm form) {
+        System.out.println(form.toString());
+        return "";
+    }
 }
