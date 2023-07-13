@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
+
 @Controller
 @Slf4j // logging annotation
 public class ArticleController {
@@ -54,4 +56,21 @@ public class ArticleController {
         // 3. 보여줄 페이지 설정
         return "articles/show";
     }
+
+    @GetMapping("/articles")
+    public String index(Model model) {
+        // 1: Bring all the articles
+        // -1: List<Article> articleEmtityList = (List<Article>)articleRepository.findAll();
+        // -2: Iterable<Article> articleEmtityList = articleRepository.findAll();
+        // -3: in ArtivleRepository, override ArrayList<> findAll()
+        List<Article> articleEmtityList = articleRepository.findAll();
+
+        // 2: Pass the bundel of retrieved articles to the view
+        model.addAttribute("articleList", articleEmtityList);
+
+        // 3: Set up the view page
+        // articles/index.mustache
+        return "articles/index";
+    }
+
 }
