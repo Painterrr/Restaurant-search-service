@@ -79,4 +79,21 @@ public class ArticleController {
         model.addAttribute("article", articleEntity);
         return "articles/edit";
     }
+
+    @PostMapping("/articles/update")
+    public String update(ArticleForm form) {
+        log.info(form.toString());
+        // 1: transform DTO to Entity
+        Article articleEntity = form.toEntity();
+        log.info(articleEntity.toString());
+
+        // 2: save Entity in DB
+        Article target = articleRepository.findById(articleEntity.getId()).orElse(null);
+        if (target != null) {
+            articleRepository.save(articleEntity);
+        }
+        
+        // 3: redirect edited contents to detail view page
+        return "redirect:/articles/" + articleEntity.getId();
+    }
 }

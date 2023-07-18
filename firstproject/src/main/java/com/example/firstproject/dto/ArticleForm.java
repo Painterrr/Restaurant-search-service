@@ -9,10 +9,11 @@ import lombok.ToString;
 public class ArticleForm {
     // controller에서 form 데이터를 받을 dto
     // form에서 받을 데이터 명과 일치
+    private Long id;
     private String title;
     private String content;
 
     public Article toEntity() {
-        return new Article(null, title, content);
+        return new Article(id, title, content);
     }
 }
