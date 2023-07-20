@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity // DB가 해당 객체를 엔티티로 인식 가능
 @AllArgsConstructor
@@ -17,11 +14,13 @@ import javax.persistence.Id;
 @Getter
 public class Article {
     @Id // Primary Key
-    @GeneratedValue // Automatic generation annotation
+//    @GeneratedValue(strategy = GenerationType.IDENTITY) // Automatic generation annotation by DB
+    @GeneratedValue
     private Long id;
 
     @Column
     private String title;
+
     @Column
     private String content;
 }
