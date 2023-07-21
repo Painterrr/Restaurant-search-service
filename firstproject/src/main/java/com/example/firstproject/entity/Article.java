@@ -14,8 +14,8 @@ import javax.persistence.*;
 @Getter
 public class Article {
     @Id // Primary Key
-//    @GeneratedValue(strategy = GenerationType.IDENTITY) // Automatic generation annotation by DB
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Automatic generation annotation by DB
+//    @GeneratedValue
     private Long id;
 
     @Column
