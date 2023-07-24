@@ -60,7 +60,22 @@ public class ArticleApiController {
     }
 
     // DELETE
+    @DeleteMapping("/api/articles/{id}")
+    public ResponseEntity<Article> delete(@PathVariable Long id) {
+        // 1. find target
+        Article target = articleRepository.findById(id).orElse(null);
 
+        // 1-1. deal BAD Request
+        if (target == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
+        // 2. delete target
+        articleRepository.delete(target);
+
+        // 3. return data
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 
 
 }
