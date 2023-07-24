@@ -54,7 +54,8 @@ public class ArticleApiController {
         }
 
         // 4. update and response
-        Article updated = articleRepository.save(article);
+        target.patch(article);
+        Article updated = articleRepository.save(target);
         return ResponseEntity.status(HttpStatus.OK).body(updated);
     }
 

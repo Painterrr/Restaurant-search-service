@@ -23,4 +23,12 @@ public class Article {
 
     @Column
     private String content;
+
+    public void patch(Article article) {
+        if (article.id != null)
+            this.id = article.getId();
+
+        if (article.content != null)
+            this.content = article.getContent();
+    }
 }
