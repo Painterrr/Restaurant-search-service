@@ -33,7 +33,7 @@ public class ArticleService {
     public Article update(Long id, ArticleForm dto) {
         // 1. create updating Entity
         Article article = dto.toEntity();
-        log.info("id: {}, article: {}", id, article.toString());
+        log.info("before, id: {}, article: {}", id, article.toString());
 
         // 2. select target Entity
         Article target = articleRepository.findById(id).orElse(null);

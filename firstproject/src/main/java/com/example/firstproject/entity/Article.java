@@ -15,7 +15,6 @@ import javax.persistence.*;
 public class Article {
     @Id // Primary Key
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Automatic generation annotation by DB
-//    @GeneratedValue
     private Long id;
 
     @Column
@@ -27,6 +26,9 @@ public class Article {
     public void patch(Article article) {
         if (article.id != null)
             this.id = article.getId();
+
+        if (article.title != null)
+            this.title = article.getTitle();
 
         if (article.content != null)
             this.content = article.getContent();
