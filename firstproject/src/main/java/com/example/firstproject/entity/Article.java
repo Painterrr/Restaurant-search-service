@@ -1,13 +1,13 @@
 package com.example.firstproject.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Getter;
 import lombok.ToString;
 
 import javax.persistence.*;
 
-@Entity // DB가 해당 객체를 엔티티로 인식 가능
+@Entity // DB가 해당 객체를 엔티티로 인식 가능(해당 클래스로 테이블 생성)
 @AllArgsConstructor
 @NoArgsConstructor // default constructor
 @ToString
