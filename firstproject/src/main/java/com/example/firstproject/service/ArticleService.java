@@ -7,7 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service // create Service object in Spring boot. it is used in ArticleApiController by DI
 @Slf4j
@@ -49,5 +51,34 @@ public class ArticleService {
         target.patch(article);
         Article updated = articleRepository.save(target);
         return updated;
+    }
+
+    public Article delete(Long id) {
+        Article target = articleRepository.findById(id).orElse(null);
+
+        if (target == null) {
+            return null;
+        }
+        articleRepository.delete(target);
+        return target;
+    }
+
+    public List<Article> createArticles(List<ArticleForm> dtos) {
+        // 1. transfer dto List to Entity List
+        List<Article> articleList = dtos.stream()
+                .map(dto -> dto.toEntity())
+                .collect(Collectors.toList());
+
+        // 2. save Entity List in DB
+        articleList.stream()
+                .forEach(article -> articleRepository.save(article));
+
+        // 3. make Exception
+        articleRepository.findById(-1L).orElseThrow(
+                () -> new IllegalArgumentException("Payment failed")
+        );
+
+        // 4. return
+        return articleList;
     }
 }
