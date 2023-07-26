@@ -75,7 +75,7 @@ public class ArticleService {
 
         // 3. make Exception
         articleRepository.findById(-1L).orElseThrow(
-                () -> new IllegalArgumentException("Payment failed")
+                () -> new IllegalArgumentException("!-Payment failed-!")
         );
 
         // 4. return
