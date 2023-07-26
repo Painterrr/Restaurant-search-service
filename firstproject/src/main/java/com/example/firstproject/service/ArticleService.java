@@ -6,6 +6,7 @@ import com.example.firstproject.repository.ArticleRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.text.html.parser.Entity;
 import java.util.List;
@@ -63,6 +64,7 @@ public class ArticleService {
         return target;
     }
 
+    @Transactional
     public List<Article> createArticles(List<ArticleForm> dtos) {
         // 1. transfer dto List to Entity List
         List<Article> articleList = dtos.stream()
