@@ -25,7 +25,10 @@ class ArticleServiceTest {
         Article a = new Article(1L, "dummy1", "1111");
         Article b = new Article(2L, "dummy2", "2222");
         Article c = new Article(3L, "dummy3", "3333");
-        List<Article> expected = new ArrayList<Article>(Arrays.asList(a, b, c));
+        Article d = new Article(4L, "title1", "content1");
+        Article e = new Article(5L, "title2", "content2");
+        Article f = new Article(6L, "title3", "content3");
+        List<Article> expected = new ArrayList<Article>(Arrays.asList(a, b, c, d, e, f));
 
         // actual
         List<Article> actual = articleService.index();
@@ -67,7 +70,7 @@ class ArticleServiceTest {
         String title = "dummy4";
         String content = "4444";
         ArticleForm dto = new ArticleForm(null, title, content);
-        Article expected = new Article(4L, title, content);
+        Article expected = new Article(7L, title, content);
 
         // actual
         Article actual = articleService.create(dto);
