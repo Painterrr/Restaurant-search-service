@@ -38,7 +38,7 @@ class CommentRepositoryTest {
             List<Comment> expected = Arrays.asList(a, b, c);
 
             // verification
-            assertEquals(expected.toString(), actual.toString(), " select all comments in one article 4");
+            assertEquals(expected.toString(), actual.toString(), " select all comments in article 4");
         }
 
         /* Case 2: select all comments in article 1 */
@@ -54,17 +54,56 @@ class CommentRepositoryTest {
             List<Comment> expected = Arrays.asList();
 
             // verification
-            assertEquals(expected.toString(), actual.toString(), " select all comments in one article 1");
+            assertEquals(expected.toString(), actual.toString(), " select all comments in article 1");
         }
 
         /* Case 3: select all comments in article 9 */
-        {}
+        {
+            // set input data
+            Long articleId = 9L;
+
+            // actual
+            List<Comment> actual = commentRepository.findByArticleId(articleId);
+
+            // expected
+            Article article = null;
+            List<Comment> expected = Arrays.asList();
+
+            // verification
+            assertEquals(expected, actual, " select all comments in article 9");
+        }
 
         /* Case 4: select all comments in article 9999 */
-        {}
+        {
+            // set input data
+            Long articleId = 999L;
+
+            // actual
+            List<Comment> actual = commentRepository.findByArticleId(articleId);
+
+            // expected
+            Article article = null;
+            List<Comment> expected = Arrays.asList();
+
+            // verification
+            assertEquals(expected, actual, " select all comments in article 999");
+        }
 
         /* Case 5: select all comments in article -1 */
-        {}
+        {
+            // set input data
+            Long articleId = -1L;
+
+            // actual
+            List<Comment> actual = commentRepository.findByArticleId(articleId);
+
+            // expected
+            Article article = null;
+            List<Comment> expected = Arrays.asList();
+
+            // verification
+            assertEquals(expected, actual, " select all comments in article -1");
+        }
     }
 
     @Test
@@ -85,19 +124,73 @@ class CommentRepositoryTest {
             List<Comment> expected = Arrays.asList(a, b, c);
 
             // verification
-            assertEquals(expected.toString(), actual.toString(), " print all comment of user1");
+            assertEquals(expected.toString(), actual.toString(), " print all comments of user1");
         }
 
         /* Case 2: select all comments of user2 */
-        {}
+        {
+            // set input data
+            String nickname = "user2";
+
+            // actual
+            List<Comment> actual = commentRepository.findByNickname(nickname);
+
+            // expected
+            Comment a = new Comment(2L, new Article(4L, "title1", "content1"), "user2", "comment4-2");
+            Comment b = new Comment(5L, new Article(5L, "title2", "content2"), "user2", "comment5-2");
+            Comment c = new Comment(8L, new Article(6L, "title3", "content3"), "user2", "comment6-2");
+            List<Comment> expected = Arrays.asList(a, b, c);
+
+            // verification
+            assertEquals(expected.toString(), actual.toString(), " print all comments of user2");
+        }
 
         /* Case 3: select all comments of null */
-        {}
+        {
+            // set input data
+            String nickname = null;
+
+            // actual
+            List<Comment> actual = commentRepository.findByNickname(nickname);
+
+            // expected
+            Comment comment = null;
+            List<Comment> expected = Arrays.asList();
+
+            // verification
+            assertEquals(expected, actual, " print all comments of null");
+        }
 
         /* Case 4: select all comments of "" */
-        {}
+        {
+            // set input data
+            String nickname = "";
+
+            // actual
+            List<Comment> actual = commentRepository.findByNickname(nickname);
+
+            // expected
+            Comment comment = null;
+            List<Comment> expected = Arrays.asList();
+
+            // verification
+            assertEquals(expected, actual, " print all comments of \"\"");
+        }
 
         /* Case 5: select all comments contain "i" */
-        {}
+        {
+            // set input data
+            String nickname = "*i*";
+
+            // actual
+            List<Comment> actual = commentRepository.findByNickname(nickname);
+
+            // expected
+            Comment comment = null;
+            List<Comment> expected = Arrays.asList();
+
+            // verification
+            assertEquals(expected, actual, " print all comments of user who contain spell 'i'");
+        }
     }
 }
