@@ -1,0 +1,58 @@
+<div class="card m-2" id="comments-new">
+    <div class="card-body">
+        <!-- create comment form-->
+        <form>
+            <div class="mb-3">
+                <label class="form-label">Nickname</label>
+                <input type="text" class="form-control form-control-sm" id="new-comment-nickname">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Comment body</label>
+                <textarea class="form-control form-control-sm" rows="3" id="new-comment-body"></textarea>
+            </div>
+
+            <!-- hidden input -->
+            {{#article}}
+                <input type="hidden" id="new-comment-article-id" value="{{id}}">
+            {{/article}}
+
+            <!-- submit -->
+            <button type="button" class="btn btn-outline-primary btn-sm" id="comment-create-btn">Submit</button>
+        </form>
+    </div>
+</div>
+
+<script>
+{
+    // Variableization the comment creation button
+    const commentCreateBtn = document.querySelector("#comment-create-btn");
+
+    commentCreateBtn.addEventListener("click", function() {
+        // create new comment object
+        const comment = {
+            nickname: document.querySelector("#new-comment-nickname").value,
+            body: document.querySelector("#new-comment-body").value,
+            article_id: document.querySelector("#new-comment-article-id").value
+        };
+        // comment object logging
+        console.log(comment);
+
+        // fetch() - API for asynchronous communication
+        const url = "/api/articles/" + comment.article_id + "/comments";
+        fetch(url, {
+            method: "post",
+            body: JSON.stringify(comment),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(response => {
+          // Output message according to http response code
+          const msg = (response.ok) ? "Your comment has been registered." : "!-Comment registration failed-!";
+          alert(msg);
+
+          // reload current page
+          window.location.reload();
+        });
+    });
+}
+</script>
