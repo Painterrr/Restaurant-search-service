@@ -3,6 +3,19 @@
         <div class="card m-3" id="comments-{{id}}">
             <div class="card-header">
                 {{nickname}}
+                <!-- Button trigger modal -->
+                <button type="button"
+                        class="btn btn-sm btn-outline-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#comment-edit-modal"
+                        data-bs-id="{{id}}"
+                        data-bs-nickname="{{nickname}}"
+                        data-bs-body="{{body}}"
+                        data-bs-article-id="{{articleId}}">Edit</button>
+                <!-- comment delete button -->
+                <button type="button"
+                        class="btn btn-sm btn-outline-dark comment-delete-btn"
+                        data-comment-id="{{id}}">Delete</button>
             </div>
             <div class="card-body">
                 {{body}}
@@ -10,3 +23,132 @@
         </div>
     {{/commentDtos}}
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="comment-edit-modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Comment edit</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- create edit form-->
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label">Nickname</label>
+                        <input class="form-control form-control-sm" id="edit-comment-nickname">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Comment body</label>
+                        <textarea class="form-control form-control-sm" rows="3" id="edit-comment-body"></textarea>
+                    </div>
+
+                    <!-- hidden input -->
+                    <input type="hidden" id="edit-comment-id">
+                    <input type="hidden" id="edit-comment-article-id">
+
+                    <!-- submit -->
+                    <button type="button" class="btn btn-outline-primary btn-sm" id="comment-update-btn">Edit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- deal Modal events -->
+<script>
+    {
+        // select Model elements
+        const commentEditModal = document.querySelector("#comment-edit-modal");
+
+        // detect Modal events
+        commentEditModal.addEventListener("show.bs.modal", function(event) {
+            // select trigger button
+            const triggerBtn = event.relatedTarget;
+
+            // bring data
+            const id = triggerBtn.getAttribute("data-bs-id");
+            const nickname = triggerBtn.getAttribute("data-bs-nickname");
+            const body = triggerBtn.getAttribute("data-bs-body");
+            const articleId = triggerBtn.getAttribute("data-bs-article-id");
+
+            // reflect data
+            document.querySelector("#edit-comment-nickname").value = nickname;
+            document.querySelector("#edit-comment-body").value = body;
+            document.querySelector("#edit-comment-id").value = id;
+            document.querySelector("#edit-comment-article-id").value = articleId;
+        });
+    }
+
+    {
+        // edit complete button
+        const commentUpdateBtn = document.querySelector("#comment-update-btn");
+
+        // detect and deal click events
+        commentUpdateBtn.addEventListener("click", function() {
+            // create update object
+            const comment = {
+                id: document.querySelector("#edit-comment-id").value,
+                nickname: document.querySelector("#edit-comment-nickname").value,
+                body: document.querySelector("#edit-comment-body").value,
+                article_id: document.querySelector("#edit-comment-article-id").value
+            };
+
+            console.log(comment);
+
+            // call update REST API - fetch()
+            const url = "/api/comments/" + comment.id;
+            fetch(url, {
+                method: "PATCH",
+                body: JSON.stringify(comment),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(response => {
+                // Output message according to http response code
+                const msg = (response.ok) ? "Your comment has been updated." : "!-Comment update failed-!";
+                alert(msg);
+
+                // reload current page
+                window.location.reload();
+            });
+        });
+    }
+
+</script>
+
+<!-- delete comment -->
+<script>
+    {
+        const commentDeleteBtns = document.querySelectorAll(".comment-delete-btn");
+
+        commentDeleteBtns.forEach(btn => {
+            // dealing with each btn event
+            btn.addEventListener("click", (event) => {
+                // get button where click event occurred(event.srcElement == event.target)
+                const commentDeleteBtn = event.srcElement;
+
+                // get id value for button to delete
+                const commentId = commentDeleteBtn.getAttribute("data-comment-id");
+                console.log(`delete btn was click: ${commentId}`); // == "delete btn was click: " + commentId
+
+                // call delete API
+                const url = `/api/comments/${commentId}`;
+                fetch(url, {
+                    method: "DELETE"
+                }).then(response => {
+                    // delete comment fail
+                    if (!response.ok) {
+                        alert("!-delete comment fail-!")
+                        return;
+                    }
+
+                    // delete comment is a success
+                    const target = document.querySelector(`#comments-${commentId}`);
+                    target.remove();
+                });
+            });
+        });
+    }
+</script>
