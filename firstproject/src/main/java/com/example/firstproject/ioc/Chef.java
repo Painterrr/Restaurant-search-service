@@ -1,17 +1,19 @@
 package com.example.firstproject.ioc;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Chef {
 
-//    public String cook(String menu) {
-//
-//        Pork pork = new Pork("Korean Beef Sirloin ");
-//        return  pork.getName() + menu;
-//
-//    }
+    private IngredientFactory ingredientFactory;
 
-    public String cook(String menu) {
-        Beef beef = new Beef("Korean Beef Sirloin ");
-        return beef.getName() + menu;
+    public Chef(IngredientFactory ingredientFactory) {
+        this.ingredientFactory = ingredientFactory;
     }
 
+    public String cook(String menu) {
+        Ingredient ingredient = ingredientFactory.get(menu);
+
+        return ingredient.getName() + menu;
+    }
 }

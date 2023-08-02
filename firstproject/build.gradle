@@ -16,6 +16,7 @@ repositories {
 }
 
 dependencies {
+	implementation project(path: ':')
 	// postgreSQL Driver
 	runtimeOnly 'org.postgresql:postgresql'
 
