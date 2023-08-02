@@ -16,6 +16,9 @@ repositories {
 }
 
 dependencies {
+	// postgreSQL Driver
+	runtimeOnly 'org.postgresql:postgresql'
+
 	// add lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
