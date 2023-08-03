@@ -1,7 +1,7 @@
 package com.example.firstproject.api;
 
+import com.example.firstproject.annotation.RunningTime;
 import com.example.firstproject.dto.CommentDto;
-import com.example.firstproject.entity.Comment;
 import com.example.firstproject.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +16,7 @@ public class CommentApiController {
     private CommentService commentService;
 
     // view comment list
+    @RunningTime
     @GetMapping("api/articles/{articleId}/comments")
     public ResponseEntity<List<CommentDto>> comments(@PathVariable Long articleId) {
         // call comment service
@@ -41,6 +42,7 @@ public class CommentApiController {
 
 
     // delete comment
+    @RunningTime
     @DeleteMapping("/api/comments/{id}")
     public ResponseEntity<CommentDto> delete(@PathVariable Long id) {
         CommentDto deletedDto = commentService.delete(id);
