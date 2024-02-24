@@ -13,7 +13,7 @@
 - IDE: IntelliJ
 - Framework: Springboot(3.2.2)
 - Database: MySQL
-- ORM: JDA
+- ORM: JPA
 
 # 📌 주요 기능
 - 현 위치 중심 지도 설정
